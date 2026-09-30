@@ -1,6 +1,25 @@
 # DevFlow Suite
 
-DevFlow is a full-stack, organization-aware project management workspace built with React, TypeScript, Node.js, Express, MongoDB, Redis, and Socket.IO.
+> A full-stack MERN workspace for teams to plan projects, manage tasks, collaborate in real time, and track delivery progress.
+
+DevFlow Suite is an organization-aware project management platform built with React, TypeScript, Node.js, Express, MongoDB, Redis, and Socket.IO. It gives software teams a focused place to organize work from project planning through task delivery.
+
+## Highlights
+
+- Manage projects and tasks with an accessible Kanban workflow.
+- Create secure organization workspaces with role-based access control.
+- Track delivery metrics, workload, sprint velocity, and recent activity from a responsive dashboard.
+- Receive real-time task updates through Socket.IO organization channels.
+- Use a documented API with validation, security middleware, structured logging, and Swagger.
+
+## Technology
+
+| Layer | Tools |
+|---|---|
+| Frontend | React, TypeScript, Vite, Tailwind CSS, TanStack Query, Zustand, Recharts |
+| Backend | Node.js, Express, TypeScript, JWT, Socket.IO, Zod |
+| Data | MongoDB, Mongoose, Redis |
+| Quality and delivery | Vitest, Docker Compose, GitHub Actions |
 
 ## What is included
 
