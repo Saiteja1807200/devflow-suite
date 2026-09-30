@@ -1,0 +1,28 @@
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+  api:
+    build: .
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      CLIENT_URL: http://127.0.0.1:5173
+      MONGODB_URI: mongodb://mongodb:27017/devflow
+      REDIS_URL: redis://redis:6379
+      JWT_ACCESS_SECRET: change-this-access-secret-to-a-long-random-value
+      JWT_REFRESH_SECRET: change-this-refresh-secret-to-a-long-random-value
+    ports:
+      - "4000:4000"
+volumes:
+  mongo_data:

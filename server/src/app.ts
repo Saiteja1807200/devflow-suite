@@ -1,0 +1,34 @@
+import compression from "compression";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
+import { env } from "./config/env.js";
+import { swaggerSpec } from "./docs/swagger.js";
+import { errorHandler, notFound } from "./middleware/error-handler.js";
+import { authRouter } from "./routes/auth.routes.js";
+import { dashboardRouter } from "./routes/dashboard.routes.js";
+import { healthRouter } from "./routes/health.routes.js";
+import { projectRouter, taskRouter } from "./routes/project.routes.js";
+
+export const app = express();
+app.set("trust proxy", 1);
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+app.use(compression());
+app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
+app.use(express.json({ limit: "1mb" }));
+app.use(cookieParser());
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: "draft-7", legacyHeaders: false }));
+
+app.use("/api/v1/health", healthRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/tasks", taskRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(notFound);
+app.use(errorHandler);
